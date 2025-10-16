@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+bool is_prime(int n) {
+    if (n <= 1) return false;
+    if (n <= 3) return true;
+    if (n % 2 == 0 || n % 3 == 0) return false;
+    
+    for (int i = 5; i * i <= n; i += 6) {
+        if (n % i == 0 || n % (i + 2) == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void find_prime_sums(int n, int* current, int pos, int start) {
+    if (n == 0) {
+        for (int i = 0; i < pos; i++) {
+            printf("%d", current[i]);
+            if (i < pos - 1) {
+                printf(" + ");
+            }
+        }
+        printf("\n");
+        return;
+    }
+    
+    for (int i = start; i <= n; i++) {
+        if (i == 1 || is_prime(i)) {
+            current[pos] = i;
+            find_prime_sums(n - i, current, pos + 1, i);
+        }
+    }
+}
+
+int main() {
+    int N;
+    
+    printf("Введите натуральное число N: ");
+    scanf("%d", &N);
+    
+    if (N <= 0) {
+        printf("Число должно быть натуральным (N > 0)\n");
+        return 1;
+    }
+    
+    int* current = (int*)malloc(N * sizeof(int));
+    
+    printf("Все комбинации сумм простых чисел для N = %d:\n", N);
+    find_prime_sums(N, current, 0, 1);
+    
+    free(current);
+    return 0;
+}
+
+
+
