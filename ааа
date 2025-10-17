@@ -47,6 +47,11 @@ int main() {
     }
     
     int* current = (int*)malloc(N * sizeof(int));
+
+    if (current == NULL) {
+        printf("Ошибка выделения памяти!\n");
+        return 1;
+    }
     
     printf("Все комбинации сумм простых чисел для N = %d:\n", N);
     find_prime_sums(N, current, 0, 1);
